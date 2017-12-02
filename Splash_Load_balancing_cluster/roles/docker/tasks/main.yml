@@ -1,0 +1,19 @@
+---
+- name: Install Docker package
+  yum: name={{item}}  state=installed
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+    - docker-ce
+
+- name: Start Docker
+  service: name=docker state=started  enabled=yes
+
+- name: Create Docker Speed Configuration file
+  template: src=daemon.json.j2 dest=/etc/docker/daemon.json force=yes
+  notify:
+  - restart Docker
+
+- name: Restart Docker
+  service: name=docker state=restarted  enabled=yes

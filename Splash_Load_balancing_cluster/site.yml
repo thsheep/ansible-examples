@@ -1,0 +1,21 @@
+- hosts: all
+
+  roles:
+  - common
+
+- hosts: docker
+
+  roles:
+  - docker
+  - splash
+
+  tags:
+  - splash
+
+- hosts: haproxy
+
+  roles:
+  - haproxy
+
+  tags:
+  - lb

@@ -1,0 +1,6 @@
+# speed_address setting
+speed_address:  http://8050f360.m.daocloud.io
+
+#  splash_ports setting
+
+splash_ports: [8050, 8051, 8052, 8053, 8054, 8055, 8056, 8057, 8058, 8059]
