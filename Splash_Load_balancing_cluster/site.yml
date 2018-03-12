@@ -1,4 +1,9 @@
-- hosts: all
+- hosts: docker
+
+  roles:
+  - common
+
+- hosts: haproxy
 
   roles:
   - common

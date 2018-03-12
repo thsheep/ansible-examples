@@ -7,8 +7,8 @@
   copy: src={{item}}/  dest=/root/
   with_items:
     - filters
-    - js-profiles
-    - lua_modules
+#    - js-profiles
+#    - lua_modules
     - proxy-profiles
 - name: Splash Start
   shell: docker run -d -p {{item}}:8050 --memory=2.0G --restart=always  --name splash{{item}}  -v /root/proxy-profiles:/etc/splash/proxy-profiles -v /root/js-profiles:/etc/splash/js-profiles       -v /root/lua_modules:/etc/splash/lua_modules       -v /root/filters:/etc/splash/filters       scrapinghub/splash:master --maxrss 1500 --max-timeout 3600
