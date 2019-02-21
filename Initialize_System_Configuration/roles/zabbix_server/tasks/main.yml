@@ -1,0 +1,11 @@
+---
+
+- name: install the zabbix rpm from a remote repo
+
+  yum:
+      name: "{{ packages }}"
+      state: latest
+      vars:
+        packages:
+        - zabbix-server-mysql
+        - zabbix-web-mysql

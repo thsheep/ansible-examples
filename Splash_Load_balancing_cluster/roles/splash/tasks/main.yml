@@ -1,7 +1,7 @@
 ---
 # splash
 - name: pull splash
-  shell: docker pull scrapinghub/splash:master
+  shell: docker pull scrapinghub/splash:3.0
   ignore_errors: True
 - name: Copy Splash module
   copy: src={{item}}/  dest=/root/

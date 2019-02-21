@@ -1,0 +1,23 @@
+---
+#- name: Yum Install Zabbix Agent
+#  yum:
+#    name: zabbix-agent
+#    state: latest
+
+- name: Create Zabbix Script directory
+  file: path=/opt/zabbix/scripts state=directory owner=zabbix group=zabbix
+
+#- name: Add Top Crontab
+#  cron: minute=*/1 hour=* day=* month=* weekday=* job="top -bw 1000 -n 1 > /tmp/.top.txt" name="top"
+
+- name: Copy Zabbix Script
+  copy: src={{item}} dest=/opt/zabbix/scripts/{{item}} force=yes owner=zabbix group=zabbix mode=750
+  with_items:
+    - discovery_process.sh
+    - process_check.sh
+
+- name: Copy Zabbix Userparameter Script.conf
+  copy: src=userparameter_script.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_script.conf force=yes
+
+#- name: Enable Zabbix Agent Sevices
+#  systemd: name=zabbix-agent state=started enabled=yes

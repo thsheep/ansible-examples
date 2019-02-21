@@ -1,0 +1,13 @@
+- hosts: all
+
+  roles:
+#  - common
+#  - python3
+#  - docker
+  - zabbix_agent
+
+#- hosts: zabbix-server
+#
+#  roles:
+#  - zabbix_server
+

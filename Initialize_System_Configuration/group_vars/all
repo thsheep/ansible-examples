@@ -1,0 +1,13 @@
+# Python Install Path
+
+python_path : /usr/local/bin
+
+install_pip_package : [selenium]
+
+tcp_ports: [22, 80, 443, 2376, 2379, 9099, 2380, 6443, 10250-10252, 10254, 10256, 30000-32767, 10050, 10051]
+
+udp_ports: [4789, 8472, 30000-32767]
+
+zabbix_version: 4.0-1
+
+zabbix_server: 10.17.126.36

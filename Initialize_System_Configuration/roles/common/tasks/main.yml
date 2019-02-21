@@ -1,0 +1,82 @@
+---
+- name: Copy the CentOS repository definition
+  copy: src=CentOS-Base.repo dest=/etc/yum.repos.d/CentOS-Base.repo force=yes
+
+- name: Create the repository for EPEL
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: latest
+
+- name: Install Zaabix Repo
+  yum:
+     name: http://repo.zabbix.com/zabbix/"{{ zabbix_version }}"/rhel/7/x86_64/zabbix-release-"{{ zabbix_version }}"-1.el7.noarch.rpm
+     state: present
+
+- name: Update Repo Info
+  shell: sudo yum makecache all
+
+- name: Create TCP Firewalld Rule
+  firewalld:  port={{item}}/tcp  permanent=true  state=enabled
+  with_items:
+    - "{{tcp_ports}}"
+
+- name: Create UDP Firewalld Rule
+  firewalld:  port={{item}}/udp  permanent=true  state=enabled
+  with_items:
+    - "{{udp_ports}}"
+
+- name: Install Ansible Base package
+  yum: name={{item}}  state=installed
+  with_items:
+    - libselinux-python
+    - libsemanage-python
+
+- name: Install Python3 Base package
+  yum: name={{item}}  state=installed
+  with_items:
+    - xz
+    - gcc
+    - zlib
+    - zlib-devel
+    - openssl-devel
+    - bzip2-devel
+    - expat-devel
+    - gdbm-devel
+    - readline-devel
+    - sqlite-devel
+    - bzip2
+    - vim
+    - htop
+    - ncdu
+    - atop
+    - iotop
+    - iftop
+
+- name: Configure SELinux to disable
+  selinux:  state=disabled
+
+- name: Mkdir Trash File
+  shell:  mkdir -p /home/temp/delete
+  ignore_errors: True
+
+- name: Change rm to mv
+  blockinfile:
+    path: /etc/profile
+    block: |
+      #修改rm命令
+      alias rm=delete  #命令别名，通过delete来实现rm改为mv
+      alias r=delete
+      alias rl='ls /home/temp/delete' #rl 命令显示回收站中的文件
+      alias unrm=undelfile #ur 命令找回回收站的文件
+      undelfile()
+      {
+          mv -i /home/temp/delete/\$@ ./
+      }
+      delete()
+      {
+          mv $@ /home/temp/delete
+      }
+
+- name: Change Ulimit
+  copy: src=20-nproc.conf dest=/etc/security/limits.d/20-nproc.conf force=yes backup=yes
+

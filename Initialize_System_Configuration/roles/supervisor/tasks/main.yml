@@ -1,0 +1,16 @@
+---
+
+- name: Copy get-pip.py
+  file: src=get-pip.py dest=/opt/get-pip.py force=yes
+
+- name: Install Python2 Pip
+  shell: /usr/bin/python2 /opt/get-pip.py
+
+- name: Install Supervisor
+  shell: pip2 install supervisor
+
+#- name: Copy Supervisor Config
+#  file: src=supervisord.conf dest=/etc/supervisord.conf
+
+- name: Start Supervisor
+  shell: supervisord -c /etc/supervisord.conf

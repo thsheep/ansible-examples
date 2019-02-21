@@ -1,10 +1,10 @@
 ---
 
 - name: Copy Python3 Install File
-  copy: src=Python-3.6.4.tar.xz dest=/opt/Python-3.6.4.tar.xz
+  copy: src=Python-3.7.0.tar.xz dest=/opt/Python-3.7.0.tar.xz
 
 - name: Unzip
-  shell:  tar xvJf Python-3.6.4.tar.xz
+  shell:  tar xvJf Python-3.7.0.tar.xz
   args:
     chdir:  /opt/
 
@@ -29,6 +29,10 @@
 
 - name: Set Pip default version
   shell:  ln -s {{python_path|quote}}/python3.6/bin/pip3 /usr/bin/pip3
+  ignore_errors: True
+
+- name: Update Pip
+  shell: pip3 install --upgrade pip
   ignore_errors: True
 
 - name: Install pip package

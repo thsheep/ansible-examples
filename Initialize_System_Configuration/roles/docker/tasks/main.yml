@@ -1,0 +1,26 @@
+---
+
+- name: Copy Docker Repo
+  copy: src=docker-ce.repo dest=/etc/yum.repos.d/docker-ce.repo
+
+- name: Update Repo Info
+  shell: sudo yum makecache all
+
+- name: YUM Install Docker Base
+  yum:  name="{{packages}}"  state=installed
+  vars:
+    packages:
+    - device-mapper-persistent-data
+    - lvm2
+
+- name: YUM Install Docker
+  shell: sudo yum -y install --setopt=obsoletes=0 docker-ce-17.03.2.ce-1.el7.centos docker-ce-selinux-17.03.2.ce-1.el7.centos
+
+- name: Copy Docker Daemon.json
+  copy: src=daemon.json dest=/etc/docker/
+
+- name: Add User To Docker
+  user: name=ec2-user append=yes group=docker
+
+- name: Start Docker Services
+  systemd: name=docker state=started enabled=yes
