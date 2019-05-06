@@ -1,0 +1,1 @@
+# 需要修改 mysql_backup.sh mysql_backup_clean.sh 的 USER  PASSWORD  BACKUPDIR

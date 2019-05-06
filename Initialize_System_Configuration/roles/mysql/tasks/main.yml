@@ -1,0 +1,21 @@
+---
+
+- name: Copy Backup file
+  copy: src={{item}} dest=/opt/script/CentOS-Base.repo force=yes
+  with_items:
+    - "mysql_backup.sh"
+    - "mysql_backup_clean.sh"
+
+- name: Set Mysql Backup
+  cron:
+    name: "mysql_backup"
+    minute: 0
+    hour: 0
+    job: "/opt/script/mysql_backup.sh"
+
+- name: Clean Mysql Backup
+  cron:
+    name: "mysql_backup"
+    minute: 0
+    hour: 01
+    job: "/opt/script/mysql_backup_clean.sh"

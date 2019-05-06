@@ -1,0 +1,9 @@
+[rancher]
+10.84.127.43    hostname=rancher-node06
+10.84.127.44    hostname=rancher-node07
+10.84.127.45    hostname=rancher-node08
+10.84.127.46    hostname=rancher-node09
+[mysql]
+10.84.127.69
+[all:children]
+rancher

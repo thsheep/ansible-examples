@@ -1,4 +1,10 @@
 ---
+- name: Set HostName
+  shell: "hostnamectl set-hostname {{hostname|quote}}"
+
+- name: Copy Hosts
+  copy: src=hosts dest=/etc/hosts force=yes
+
 - name: Copy the CentOS repository definition
   copy: src=CentOS-Base.repo dest=/etc/yum.repos.d/CentOS-Base.repo force=yes
 
@@ -9,7 +15,7 @@
 
 - name: Install Zaabix Repo
   yum:
-     name: http://repo.zabbix.com/zabbix/"{{ zabbix_version }}"/rhel/7/x86_64/zabbix-release-"{{ zabbix_version }}"-1.el7.noarch.rpm
+     name: http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
      state: present
 
 - name: Update Repo Info
@@ -80,3 +86,17 @@
 - name: Change Ulimit
   copy: src=20-nproc.conf dest=/etc/security/limits.d/20-nproc.conf force=yes backup=yes
 
+- name: Set TimeZone
+  timezone:
+    name: America/Los_Angeles
+
+
+- name: Set Sysctl.conf
+  blockinfile:
+    path: /etc/sysctl.conf
+    block: |
+      net.ipv4.ip_forward=1
+      net.bridge.bridge-nf-call-iptables=1
+      net.ipv4.neigh.default.gc_thresh1=4096
+      net.ipv4.neigh.default.gc_thresh2=6144
+      net.ipv4.neigh.default.gc_thresh3=8192

@@ -1,10 +1,15 @@
 - hosts: all
 
   roles:
-#  - common
-#  - python3
-#  - docker
+  - common
+  - python3
+  - docker
   - zabbix_agent
+
+#- hosts: nginx
+#  roles:
+#  - nginx
+#  - supervisor
 
 #- hosts: zabbix-server
 #
